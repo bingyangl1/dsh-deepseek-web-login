@@ -61,6 +61,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node scripts/test-offline.mjs",
+    "typecheck": "node scripts/typecheck.mjs",
+    "server": "node server/index.ts",
     "prepare": "node scripts/prepare.mjs"
   },
   "engines": {

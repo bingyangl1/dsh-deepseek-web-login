@@ -1,0 +1,28 @@
+{
+  // 独立的 OpenAI 兼容服务（server/）专用类型检查。
+  //
+  // 为什么单独一个 tsconfig：主工程（tsconfig.json）以 `src/` 为 rootDir、把产物打进
+  // `lib/`（tsdown 自包含 bundle），server/ 不参与那套构建 —— 它是运行期由 Node 24+
+  // 直接 type-strip 掉 `.ts` 扩展名跑的（`node server/index.ts`），测试（tests/check-*.mjs）
+  // 也只是 import 它的 .ts 源码。所以这里只做 `noEmit` 类型检查，不产出。
+  //
+  // 覆盖 server/ 与「直接 import server/*.ts 的测试」，保证改动在类型层面可查，
+  // 否则 tsdown 只转译不查类型（CI 注释里 P0-1 的教训）。
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2023", "DOM"],
+    "types": ["node"],
+    "strict": false,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["server/**/*.ts"]
+}
